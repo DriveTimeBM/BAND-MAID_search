@@ -8,4 +8,4 @@ const YT_API_KEY = "AIzaSyByG1e1A5Oc5l0M80aS1lPJf2G-a2HurrI";
 
 // ── Default card size ──────────────────────────────────────────────────────
 // Options: 's' (small), 'm' (medium), 'l' (large)
-const DEFAULT_SIZE = 's';
+const DEFAULT_SIZE = 'm';
