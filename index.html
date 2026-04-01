@@ -11,14 +11,13 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #f7f6f3;
-      --surface:  #ffffff;
-      --border:   #e2e0d9;
-      --text:     #1a1916;
-      --muted:    #6b6960;
-      --accent:   #1a1916;
-      --thumb:    #c8c5bc;
-      --red:      #c0392b;
+      --bg:      #f7f6f3;
+      --surface: #ffffff;
+      --border:  #e2e0d9;
+      --text:    #1a1916;
+      --muted:   #6b6960;
+      --thumb:   #c8c5bc;
+      --red:     #c0392b;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -28,188 +27,98 @@
         --border:  #2e2d2a;
         --text:    #f0ede6;
         --muted:   #908d85;
-        --accent:  #f0ede6;
         --thumb:   #3a3935;
         --red:     #e05c4a;
       }
     }
 
-    html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; }
+    html, body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; }
 
-    /* ── Layout ── */
     header {
-      padding: 3rem 0 1.5rem;
+      padding: 2.5rem 0 1.25rem;
       text-align: center;
       border-bottom: 1px solid var(--border);
     }
     header h1 {
       font-family: 'DM Serif Display', serif;
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
       font-weight: 400;
-      letter-spacing: 0.01em;
       color: var(--text);
     }
     header p {
-      margin-top: 0.35rem;
-      font-size: 0.8rem;
+      margin-top: 0.3rem;
+      font-size: 0.72rem;
       color: var(--muted);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
       font-family: 'DM Mono', monospace;
     }
 
     main { max-width: 860px; margin: 0 auto; padding: 0 1.25rem 4rem; }
 
-    /* ── Controls ── */
     .controls {
       display: flex;
       gap: 0.5rem;
-      padding: 1.5rem 0 1.25rem;
+      padding: 1.4rem 0 1.1rem;
       flex-wrap: wrap;
-      align-items: center;
+      align-items: flex-end;
     }
 
-    #query {
-      flex: 1;
-      min-width: 200px;
-      height: 40px;
-      padding: 0 0.9rem;
+    .field { display: flex; flex-direction: column; gap: 0.3rem; }
+    .field label { font-size: 0.68rem; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    input[type="text"], input[type="number"], select {
+      height: 38px;
+      padding: 0 0.8rem;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 4px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--text);
       outline: none;
       transition: border-color 0.15s;
     }
-    #query:focus { border-color: var(--muted); }
-    #query::placeholder { color: var(--thumb); }
+    input[type="text"]:focus, input[type="number"]:focus, select:focus { border-color: var(--muted); }
+    input::placeholder { color: var(--thumb); }
 
-    select, button {
-      height: 40px;
-      padding: 0 0.9rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.85rem;
-      color: var(--text);
-      cursor: pointer;
-      outline: none;
-      transition: border-color 0.15s, background 0.15s;
-    }
-    select:focus, button:focus { border-color: var(--muted); }
+    input[type="number"] { width: 80px; }
+
+    .hours-wrap { display: flex; gap: 0.4rem; align-items: center; }
 
     button#searchBtn {
+      height: 38px;
+      padding: 0 1.2rem;
       background: var(--text);
       color: var(--bg);
-      border-color: var(--text);
+      border: 1px solid var(--text);
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
       font-weight: 500;
-      padding: 0 1.2rem;
       letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      align-self: flex-end;
     }
-    button#searchBtn:hover { opacity: 0.85; }
-    button#searchBtn:active { opacity: 0.7; }
-    button#searchBtn:disabled { opacity: 0.4; cursor: default; }
+    button#searchBtn:hover { opacity: 0.82; }
+    button#searchBtn:active { opacity: 0.65; }
+    button#searchBtn:disabled { opacity: 0.35; cursor: default; }
 
-    /* ── Meta bar ── */
     .meta {
       font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--muted);
-      letter-spacing: 0.04em;
-      padding-bottom: 1rem;
+      letter-spacing: 0.03em;
+      padding-bottom: 0.9rem;
       border-bottom: 1px solid var(--border);
-      min-height: 1.6rem;
+      min-height: 1.4rem;
     }
     .meta .warn { color: var(--red); }
 
-    /* ── Results ── */
-    #results { display: flex; flex-direction: column; gap: 0; }
-
-    .result-item {
-      display: grid;
-      grid-template-columns: 160px 1fr;
-      gap: 1rem;
-      padding: 1.1rem 0;
-      border-bottom: 1px solid var(--border);
-      text-decoration: none;
-      color: inherit;
-      transition: background 0.1s;
-    }
-    .result-item:hover { background: var(--surface); margin: 0 -1rem; padding-left: 1rem; padding-right: 1rem; border-radius: 4px; }
-
-    .thumb-wrap {
-      position: relative;
-      width: 160px;
-      aspect-ratio: 16/9;
-      background: var(--border);
-      border-radius: 3px;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-    .thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-    .duration {
-      position: absolute;
-      bottom: 4px;
-      right: 5px;
-      background: rgba(0,0,0,0.75);
-      color: #fff;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      padding: 1px 5px;
-      border-radius: 2px;
-      letter-spacing: 0.02em;
-    }
-
-    .info { display: flex; flex-direction: column; gap: 0.25rem; min-width: 0; }
-
-    .info .title {
-      font-size: 0.92rem;
-      font-weight: 500;
-      line-height: 1.35;
-      color: var(--text);
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .info .channel {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--muted);
-      letter-spacing: 0.03em;
-    }
-
-    .info .dateline {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--thumb);
-      letter-spacing: 0.02em;
-      margin-top: auto;
-    }
-
-    /* match highlight */
-    .match-badge {
-      display: inline-block;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
-      background: var(--border);
-      color: var(--muted);
-      border-radius: 2px;
-      padding: 1px 5px;
-      letter-spacing: 0.04em;
-      margin-top: 0.2rem;
-      align-self: flex-start;
-    }
-
-    /* ── State ── */
     #status {
       text-align: center;
-      padding: 3rem 0;
+      padding: 2.5rem 0;
       font-family: 'DM Mono', monospace;
       font-size: 0.78rem;
       color: var(--muted);
@@ -219,7 +128,7 @@
 
     .spinner {
       display: inline-block;
-      width: 18px; height: 18px;
+      width: 16px; height: 16px;
       border: 1.5px solid var(--border);
       border-top-color: var(--muted);
       border-radius: 50%;
@@ -229,19 +138,87 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Pagination ── */
-    .pagination {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: center;
-      padding-top: 2rem;
-    }
-    .pagination button { min-width: 80px; }
+    #results { display: flex; flex-direction: column; }
 
-    /* ── Responsive ── */
-    @media (max-width: 520px) {
-      .result-item { grid-template-columns: 120px 1fr; }
-      .thumb-wrap { width: 120px; }
+    .result-item {
+      display: grid;
+      grid-template-columns: 156px 1fr;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.1s;
+      border-radius: 4px;
+    }
+    .result-item:hover {
+      background: var(--surface);
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      margin-left: -0.75rem;
+      margin-right: -0.75rem;
+    }
+
+    .thumb-wrap {
+      position: relative;
+      width: 156px;
+      aspect-ratio: 16/9;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .duration {
+      position: absolute;
+      bottom: 4px; right: 5px;
+      background: rgba(0,0,0,0.78);
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.63rem;
+      padding: 1px 5px;
+      border-radius: 2px;
+    }
+
+    .info { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+
+    .info .title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      line-height: 1.35;
+      color: var(--text);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .info .channel {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+    }
+    .info .dateline {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--thumb);
+      margin-top: auto;
+      padding-top: 0.25rem;
+    }
+    .match-badge {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      background: var(--border);
+      color: var(--muted);
+      border-radius: 2px;
+      padding: 1px 5px;
+      margin-top: 0.15rem;
+      align-self: flex-start;
+    }
+
+    @media (max-width: 500px) {
+      .result-item { grid-template-columns: 110px 1fr; }
+      .thumb-wrap { width: 110px; }
     }
   </style>
 </head>
@@ -249,73 +226,103 @@
 
 <header>
   <h1>BAND-MAID · Video Search</h1>
-  <p>band-maid &amp; band-maiko · youtube</p>
+  <p>band-maid &amp; band-maiko · recent videos</p>
 </header>
 
 <main>
   <div class="controls">
-    <input type="text" id="query" placeholder="Optional keywords…" value="" autocomplete="off" />
-    <select id="dateFilter">
-      <option value="">Any time</option>
-      <option value="1">Last 24 h</option>
-      <option value="7" selected>Last 7 days</option>
-      <option value="30">Last 30 days</option>
-      <option value="90">Last 90 days</option>
-      <option value="365">Last year</option>
-    </select>
-    <select id="typeFilter">
-      <option value="video">Videos</option>
-      <option value="any">Any type</option>
-    </select>
+
+    <div class="field" style="flex:1; min-width:160px;">
+      <label for="queryInput">Extra keywords</label>
+      <input type="text" id="queryInput" placeholder="Optional…" autocomplete="off" />
+    </div>
+
+    <div class="field">
+      <label>Hours back</label>
+      <div class="hours-wrap">
+        <select id="hourPreset">
+          <option value="6">6 hrs</option>
+          <option value="12">12 hrs</option>
+          <option value="24" selected>24 hrs</option>
+          <option value="48">48 hrs</option>
+          <option value="72">72 hrs</option>
+          <option value="168">1 week</option>
+          <option value="336">2 weeks</option>
+          <option value="720">30 days</option>
+          <option value="custom">Custom…</option>
+        </select>
+        <input type="number" id="hourCustom" min="1" max="8760" placeholder="hrs"
+               style="display:none;" title="Hours back" />
+      </div>
+    </div>
+
     <button id="searchBtn">Search</button>
+
   </div>
 
   <div class="meta" id="metaBar">&nbsp;</div>
-
   <div id="status"></div>
   <div id="results"></div>
-  <div class="pagination" id="pagination"></div>
 </main>
 
-<script src="config.js"></script>
+<!-- config.js loaded last; onerror is silent — getApiKey() handles the missing-key case -->
 <script>
-// ── Constants ──────────────────────────────────────────────────────────────
-const BAND_MAID_RE = /\bband[-\s]?mai(?:d|ko)\b/i;
-const BASE_QUERY   = 'BAND-MAID OR BAND-MAIKO';
-const MAX_RESULTS  = 25;   // per API page (max 50)
-const DETAILS_CHUNK = 25;  // videos/detail batch size (API limit)
-
-// ── State ──────────────────────────────────────────────────────────────────
-let pageTokens   = [null];  // index 0 = first page
-let currentPage  = 0;
-let lastParams   = null;
-
-// ── DOM refs ───────────────────────────────────────────────────────────────
-const queryEl   = document.getElementById('query');
-const dateEl    = document.getElementById('dateFilter');
-const typeEl    = document.getElementById('typeFilter');
-const searchBtn = document.getElementById('searchBtn');
-const statusEl  = document.getElementById('status');
-const resultsEl = document.getElementById('results');
-const metaEl    = document.getElementById('metaBar');
-const paginEl   = document.getElementById('pagination');
-
-// ── Helpers ────────────────────────────────────────────────────────────────
-function setStatus(msg, isError = false) {
-  statusEl.className = isError ? 'error' : '';
-  statusEl.innerHTML = msg;
+// ── Config guard ───────────────────────────────────────────────────────────
+// Works whether config.js loaded or not, and regardless of load order.
+function getApiKey() {
+  try {
+    if (typeof YT_API_KEY !== 'undefined' &&
+        YT_API_KEY &&
+        YT_API_KEY !== 'YOUR_API_KEY_HERE') {
+      return YT_API_KEY;
+    }
+  } catch (e) {}
+  return null;
 }
 
-function isoAfter(days) {
-  if (!days) return null;
-  const d = new Date();
-  d.setDate(d.getDate() - Number(days));
-  return d.toISOString();
+// ── Constants ──────────────────────────────────────────────────────────────
+const BAND_MAID_RE = /\bband[-\s]?mai(?:d|ko)\b/i;
+const BASE_QUERY   = '"BAND-MAID" OR "BAND-MAIKO"';
+
+// ── DOM refs ───────────────────────────────────────────────────────────────
+const queryInput = document.getElementById('queryInput');
+const hourPreset = document.getElementById('hourPreset');
+const hourCustom = document.getElementById('hourCustom');
+const searchBtn  = document.getElementById('searchBtn');
+const statusEl   = document.getElementById('status');
+const resultsEl  = document.getElementById('results');
+const metaEl     = document.getElementById('metaBar');
+
+// ── Preset ↔ custom toggle ─────────────────────────────────────────────────
+hourPreset.addEventListener('change', () => {
+  const isCustom = hourPreset.value === 'custom';
+  hourCustom.style.display = isCustom ? 'block' : 'none';
+  if (isCustom) hourCustom.focus();
+});
+
+function getHours() {
+  if (hourPreset.value === 'custom') {
+    const v = parseInt(hourCustom.value, 10);
+    return (!isNaN(v) && v >= 1) ? v : 24;
+  }
+  return parseInt(hourPreset.value, 10);
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+function setStatus(html, isError) {
+  statusEl.className = isError ? 'error' : '';
+  statusEl.innerHTML = html;
+}
+
+function publishedAfterISO(hours) {
+  return new Date(Date.now() - hours * 3600 * 1000).toISOString();
 }
 
 function formatDate(iso) {
-  const d = new Date(iso);
-  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  return new Date(iso).toLocaleString('en-US', {
+    year: 'numeric', month: 'short', day: 'numeric',
+    hour: 'numeric', minute: '2-digit'
+  });
 }
 
 function formatDuration(iso) {
@@ -323,29 +330,37 @@ function formatDuration(iso) {
   const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
   if (!m) return '';
   const h = parseInt(m[1] || 0), mi = parseInt(m[2] || 0), s = parseInt(m[3] || 0);
-  if (h) return `${h}:${String(mi).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  return `${mi}:${String(s).padStart(2,'0')}`;
+  return h
+    ? `${h}:${String(mi).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+    : `${mi}:${String(s).padStart(2, '0')}`;
 }
 
-// ── API calls ──────────────────────────────────────────────────────────────
-async function searchYT(pageToken) {
-  const days    = dateEl.value;
-  const extra   = queryEl.value.trim();
-  const q       = extra ? `${BASE_QUERY} ${extra}` : BASE_QUERY;
-  const type    = typeEl.value;
+function esc(s) {
+  return String(s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 
-  const params = new URLSearchParams({
-    part:       'snippet',
-    q,
-    type,
-    order:      'date',
-    maxResults: MAX_RESULTS,
-    key:        YT_API_KEY,
-  });
-  if (isoAfter(days)) params.set('publishedAfter', isoAfter(days));
-  if (pageToken)       params.set('pageToken', pageToken);
+// ── Regex helpers ──────────────────────────────────────────────────────────
+function matchesBandMaid(snip) {
+  return BAND_MAID_RE.test(snip.title || '') ||
+         BAND_MAID_RE.test(snip.description || '');
+}
 
-  const r = await fetch(`https://www.googleapis.com/youtube/v3/search?${params}`);
+function matchedWhere(snip) {
+  if (!BAND_MAID_RE.test(snip.title || '') &&
+       BAND_MAID_RE.test(snip.description || '')) {
+    return 'matched in description';
+  }
+  return null;
+}
+
+// ── YouTube API wrappers ───────────────────────────────────────────────────
+async function ytFetch(endpoint, params) {
+  params.key = getApiKey();
+  const url = 'https://www.googleapis.com/youtube/v3/' + endpoint +
+              '?' + new URLSearchParams(params);
+  const r = await fetch(url);
   if (!r.ok) {
     const err = await r.json().catch(() => ({}));
     throw new Error(err?.error?.message || `HTTP ${r.status}`);
@@ -353,161 +368,139 @@ async function searchYT(pageToken) {
   return r.json();
 }
 
-async function getVideoDetails(ids) {
-  const params = new URLSearchParams({
-    part:      'contentDetails,statistics',
-    id:        ids.join(','),
-    key:       YT_API_KEY,
+async function searchPage(publishedAfter, pageToken) {
+  const extra = queryInput.value.trim();
+  const q = extra ? `${BASE_QUERY} ${extra}` : BASE_QUERY;
+  const p = {
+    part: 'snippet',
+    q,
+    type: 'video',
+    order: 'date',
+    maxResults: 50,
+    publishedAfter,
+  };
+  if (pageToken) p.pageToken = pageToken;
+  return ytFetch('search', p);
+}
+
+async function getDetails(ids) {
+  if (!ids.length) return {};
+  const data = await ytFetch('videos', {
+    part: 'contentDetails',
+    id: ids.join(','),
   });
-  const r = await fetch(`https://www.googleapis.com/youtube/v3/videos?${params}`);
-  if (!r.ok) return {};
-  const data = await r.json();
   return Object.fromEntries((data.items || []).map(v => [v.id, v]));
 }
 
-// ── Regex filter (title + description) ────────────────────────────────────
-function matchesBandMaid(item) {
-  const snip = item.snippet || {};
-  return BAND_MAID_RE.test(snip.title || '') || BAND_MAID_RE.test(snip.description || '');
-}
-
-function matchedAs(item) {
-  const snip = item.snippet || {};
-  if (BAND_MAID_RE.test(snip.title || '')) return null; // obvious, no badge
-  if (BAND_MAID_RE.test(snip.description || '')) return 'matched in description';
-  return null;
-}
-
-// ── Render ─────────────────────────────────────────────────────────────────
-function renderResults(items, details) {
-  resultsEl.innerHTML = '';
-  if (!items.length) {
-    setStatus('No matching results. Try broadening the date range or removing extra keywords.');
+// ── Main ───────────────────────────────────────────────────────────────────
+async function runSearch() {
+  if (!getApiKey()) {
+    setStatus(
+      'No API key found. Copy <code>config.template.js</code> to <code>config.js</code>, ' +
+      'add your YouTube Data API v3 key, and open index.html with config.js in the same folder.',
+      true
+    );
     return;
   }
-  setStatus('');
-  items.forEach(item => {
-    const id      = item.id?.videoId || item.id;
-    const snip    = item.snippet || {};
-    const det     = details[id] || {};
-    const dur     = formatDuration(det?.contentDetails?.duration);
-    const thumb   = snip.thumbnails?.medium?.url || snip.thumbnails?.default?.url || '';
-    const badge   = matchedAs(item);
 
-    const a = document.createElement('a');
-    a.className = 'result-item';
-    a.href      = `https://www.youtube.com/watch?v=${id}`;
-    a.target    = '_blank';
-    a.rel       = 'noopener noreferrer';
-
-    a.innerHTML = `
-      <div class="thumb-wrap">
-        ${thumb ? `<img src="${thumb}" alt="" loading="lazy" />` : ''}
-        ${dur ? `<span class="duration">${dur}</span>` : ''}
-      </div>
-      <div class="info">
-        <span class="title">${escHtml(snip.title || '')}</span>
-        <span class="channel">${escHtml(snip.channelTitle || '')}</span>
-        ${badge ? `<span class="match-badge">${badge}</span>` : ''}
-        <span class="dateline">${formatDate(snip.publishedAt)}</span>
-      </div>
-    `;
-    resultsEl.appendChild(a);
-  });
-}
-
-function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function renderPagination() {
-  paginEl.innerHTML = '';
-  if (currentPage > 0) {
-    const prev = document.createElement('button');
-    prev.textContent = '← Prev';
-    prev.onclick = () => goPage(currentPage - 1);
-    paginEl.appendChild(prev);
-  }
-  if (pageTokens[currentPage + 1]) {
-    const next = document.createElement('button');
-    next.textContent = 'Next →';
-    next.onclick = () => goPage(currentPage + 1);
-    paginEl.appendChild(next);
-  }
-}
-
-// ── Main flow ──────────────────────────────────────────────────────────────
-async function runSearch(pageIndex) {
-  if (!YT_API_KEY || YT_API_KEY === 'YOUR_API_KEY_HERE') {
-    setStatus('⚠ Add your YouTube API key to config.js first.', true);
-    return;
-  }
   searchBtn.disabled = true;
   resultsEl.innerHTML = '';
-  paginEl.innerHTML   = '';
-  metaEl.innerHTML    = '&nbsp;';
+  metaEl.innerHTML = '&nbsp;';
   setStatus('<span class="spinner"></span>searching…');
 
-  try {
-    const token = pageTokens[pageIndex] || null;
-    const data  = await searchYT(token);
+  const hours = getHours();
+  const publishedAfter = publishedAfterISO(hours);
 
-    // Store next page token
-    if (data.nextPageToken && !pageTokens[pageIndex + 1]) {
-      pageTokens[pageIndex + 1] = data.nextPageToken;
+  try {
+    // Pull up to 2 pages (max 100 raw results) then filter + cap at 50
+    let allItems = [];
+    let nextToken = null;
+    let pages = 0;
+
+    do {
+      const data = await searchPage(publishedAfter, nextToken);
+      allItems = allItems.concat(data.items || []);
+      nextToken = data.nextPageToken || null;
+      pages++;
+    } while (nextToken && pages < 2);
+
+    const rawCount = allItems.length;
+
+    // Regex filter
+    const matched = allItems.filter(i => matchesBandMaid(i.snippet || {}));
+
+    // Sort most-recent first
+    matched.sort((a, b) =>
+      new Date(b.snippet.publishedAt) - new Date(a.snippet.publishedAt)
+    );
+
+    // Cap at 50
+    const capped   = matched.slice(0, 50);
+    const filtered = rawCount - matched.length;
+
+    // Fetch durations for video results
+    const videoIds = capped.map(i => i.id?.videoId).filter(Boolean);
+    const details  = await getDetails(videoIds);
+
+    // Meta bar
+    metaEl.innerHTML =
+      `${rawCount} fetched · ${matched.length} matched regex` +
+      (filtered ? ` · <span class="warn">${filtered} filtered out</span>` : '') +
+      ` · showing ${capped.length}` +
+      ` · last ${hours} hr${hours === 1 ? '' : 's'}` +
+      ` · ~${pages * 100} quota units`;
+
+    setStatus('');
+
+    if (!capped.length) {
+      setStatus('No matching results in that time window. Try a wider range.');
+      return;
     }
 
-    const raw     = data.items || [];
-    const matched = raw.filter(matchesBandMaid);
-    const filtered = raw.length - matched.length;
+    capped.forEach(item => {
+      const id    = item.id?.videoId;
+      const snip  = item.snippet || {};
+      const dur   = formatDuration(details[id]?.contentDetails?.duration);
+      const thumb = snip.thumbnails?.medium?.url || snip.thumbnails?.default?.url || '';
+      const badge = matchedWhere(snip);
 
-    // Get video IDs for detail lookup (only actual videos)
-    const videoIds = matched
-      .filter(i => i.id?.kind === 'youtube#video' || typeof i.id === 'string')
-      .map(i => i.id?.videoId || i.id)
-      .filter(Boolean);
-
-    const details = videoIds.length ? await getVideoDetails(videoIds) : {};
-
-    const total      = data.pageInfo?.totalResults ?? '?';
-    const quotaNote  = '<span class="warn">each search costs ~100 quota units</span>';
-    metaEl.innerHTML =
-      `~${Number(total).toLocaleString()} raw results · ` +
-      `${matched.length} passed regex filter` +
-      (filtered ? ` <span class="warn">(${filtered} filtered out)</span>` : '') +
-      ` · page ${pageIndex + 1}` +
-      ` · ${quotaNote}`;
-
-    currentPage = pageIndex;
-    renderResults(matched, details);
-    renderPagination();
+      const a = document.createElement('a');
+      a.className = 'result-item';
+      a.href      = `https://www.youtube.com/watch?v=${id}`;
+      a.target    = '_blank';
+      a.rel       = 'noopener noreferrer';
+      a.innerHTML = `
+        <div class="thumb-wrap">
+          ${thumb ? `<img src="${esc(thumb)}" alt="" loading="lazy" />` : ''}
+          ${dur   ? `<span class="duration">${esc(dur)}</span>` : ''}
+        </div>
+        <div class="info">
+          <span class="title">${esc(snip.title || '')}</span>
+          <span class="channel">${esc(snip.channelTitle || '')}</span>
+          ${badge ? `<span class="match-badge">${badge}</span>` : ''}
+          <span class="dateline">${formatDate(snip.publishedAt)}</span>
+        </div>`;
+      resultsEl.appendChild(a);
+    });
 
   } catch (err) {
-    setStatus(`Error: ${err.message}`, true);
+    setStatus(`Error: ${esc(err.message)}`, true);
     console.error(err);
   } finally {
     searchBtn.disabled = false;
   }
 }
 
-function goPage(index) {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  runSearch(index);
-}
-
-function newSearch() {
-  pageTokens  = [null];
-  currentPage = 0;
-  runSearch(0);
-}
-
 // ── Events ─────────────────────────────────────────────────────────────────
-searchBtn.addEventListener('click', newSearch);
-queryEl.addEventListener('keydown', e => { if (e.key === 'Enter') newSearch(); });
+searchBtn.addEventListener('click', runSearch);
+queryInput.addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); });
+hourCustom.addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); });
 
-// Auto-run on load
-window.addEventListener('DOMContentLoaded', newSearch);
+// Prompt rather than auto-run — avoids burning quota on page load
+setStatus('Press Search to find recent videos.');
 </script>
+
+<script src="config.js" onerror="void 0;"></script>
 
 </body>
 </html>
