@@ -32,160 +32,175 @@
       }
     }
 
-    html, body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; }
+    html, body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.5; }
 
+    /* ── Header ── */
     header {
-      padding: 2.5rem 0 1.25rem;
-      text-align: center;
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      padding: 0.7rem 1.25rem;
       border-bottom: 1px solid var(--border);
     }
     header h1 {
       font-family: 'DM Serif Display', serif;
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-size: 1.2rem;
       font-weight: 400;
-      color: var(--text);
+      white-space: nowrap;
     }
     header p {
-      margin-top: 0.3rem;
-      font-size: 0.72rem;
-      color: var(--muted);
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
       font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    main { max-width: 860px; margin: 0 auto; padding: 0 1.25rem 4rem; }
+    /* ── Layout ── */
+    main { max-width: 1140px; margin: 0 auto; padding: 0 1.25rem 3rem; }
 
+    /* ── Controls ── */
     .controls {
       display: flex;
+      align-items: center;
       gap: 0.5rem;
-      padding: 1.4rem 0 1.1rem;
+      padding: 0.5rem 0;
       flex-wrap: wrap;
-      align-items: flex-end;
+      border-bottom: 1px solid var(--border);
     }
 
-    .field { display: flex; flex-direction: column; gap: 0.3rem; }
-    .field label { font-size: 0.68rem; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; }
+    .field { display: flex; align-items: center; gap: 0.3rem; }
+    .field label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
 
     input[type="text"], input[type="number"], select {
-      height: 38px;
-      padding: 0 0.8rem;
+      height: 28px;
+      padding: 0 0.55rem;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 4px;
+      border-radius: 3px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.88rem;
+      font-size: 0.82rem;
       color: var(--text);
       outline: none;
-      transition: border-color 0.15s;
+      transition: border-color 0.12s;
     }
-    input[type="text"]:focus, input[type="number"]:focus, select:focus { border-color: var(--muted); }
+    input:focus, select:focus { border-color: var(--muted); }
     input::placeholder { color: var(--thumb); }
+    input[type="number"] { width: 62px; }
+    #queryInput { min-width: 150px; }
 
-    input[type="number"] { width: 80px; }
-
-    .hours-wrap { display: flex; gap: 0.4rem; align-items: center; }
+    .hours-wrap { display: flex; gap: 0.3rem; align-items: center; }
 
     button#searchBtn {
-      height: 38px;
-      padding: 0 1.2rem;
+      height: 28px;
+      padding: 0 0.9rem;
       background: var(--text);
       color: var(--bg);
-      border: 1px solid var(--text);
-      border-radius: 4px;
+      border: none;
+      border-radius: 3px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.88rem;
+      font-size: 0.82rem;
       font-weight: 500;
-      letter-spacing: 0.03em;
       cursor: pointer;
-      transition: opacity 0.15s;
-      align-self: flex-end;
+      transition: opacity 0.12s;
     }
-    button#searchBtn:hover { opacity: 0.82; }
-    button#searchBtn:active { opacity: 0.65; }
+    button#searchBtn:hover { opacity: 0.8; }
+    button#searchBtn:active { opacity: 0.6; }
     button#searchBtn:disabled { opacity: 0.35; cursor: default; }
 
+    /* ── Meta ── */
     .meta {
       font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.67rem;
       color: var(--muted);
-      letter-spacing: 0.03em;
-      padding-bottom: 0.9rem;
+      padding: 0.35rem 0;
       border-bottom: 1px solid var(--border);
-      min-height: 1.4rem;
+      min-height: 1.5rem;
     }
     .meta .warn { color: var(--red); }
 
+    /* ── Status ── */
     #status {
       text-align: center;
-      padding: 2.5rem 0;
+      padding: 2rem 0;
       font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: var(--muted);
-      letter-spacing: 0.05em;
     }
     #status.error { color: var(--red); }
 
     .spinner {
       display: inline-block;
-      width: 16px; height: 16px;
+      width: 14px; height: 14px;
       border: 1.5px solid var(--border);
       border-top-color: var(--muted);
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
       vertical-align: middle;
-      margin-right: 0.5rem;
+      margin-right: 0.4rem;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    #results { display: flex; flex-direction: column; }
+    /* ── Two-column results grid ── */
+    #results {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
 
+    /* Each cell: left col gets right border, both cols get bottom border */
     .result-item {
       display: grid;
-      grid-template-columns: 156px 1fr;
-      gap: 1rem;
-      padding: 1rem 0;
+      grid-template-columns: 100px 1fr;
+      gap: 0.55rem;
+      padding: 0.55rem 0.6rem;
       border-bottom: 1px solid var(--border);
       text-decoration: none;
       color: inherit;
       transition: background 0.1s;
-      border-radius: 4px;
     }
-    .result-item:hover {
-      background: var(--surface);
-      padding-left: 0.75rem;
-      padding-right: 0.75rem;
-      margin-left: -0.75rem;
-      margin-right: -0.75rem;
-    }
+    /* left column cells get a right border to form the divider */
+    .result-item:nth-child(odd)  { border-right: 1px solid var(--border); }
 
+    .result-item:hover { background: var(--surface); }
+
+    /* ── Thumbnail ── */
     .thumb-wrap {
       position: relative;
-      width: 156px;
+      width: 100px;
       aspect-ratio: 16/9;
       background: var(--border);
-      border-radius: 3px;
+      border-radius: 2px;
       overflow: hidden;
+      flex-shrink: 0;
     }
     .thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     .duration {
       position: absolute;
-      bottom: 4px; right: 5px;
+      bottom: 3px; right: 3px;
       background: rgba(0,0,0,0.78);
       color: #fff;
       font-family: 'DM Mono', monospace;
-      font-size: 0.63rem;
-      padding: 1px 5px;
+      font-size: 0.58rem;
+      padding: 1px 4px;
       border-radius: 2px;
     }
 
-    .info { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+    /* ── Info ── */
+    .info { display: flex; flex-direction: column; min-width: 0; gap: 0.1rem; }
 
     .info .title {
-      font-size: 0.9rem;
+      font-size: 0.78rem;
       font-weight: 500;
-      line-height: 1.35;
+      line-height: 1.3;
       color: var(--text);
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -194,31 +209,29 @@
     }
     .info .channel {
       font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
+      font-size: 0.62rem;
       color: var(--muted);
     }
     .info .dateline {
       font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
+      font-size: 0.6rem;
       color: var(--thumb);
       margin-top: auto;
-      padding-top: 0.25rem;
     }
     .match-badge {
-      display: inline-block;
       font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
+      font-size: 0.57rem;
       background: var(--border);
       color: var(--muted);
       border-radius: 2px;
-      padding: 1px 5px;
-      margin-top: 0.15rem;
+      padding: 0 4px;
       align-self: flex-start;
     }
 
-    @media (max-width: 500px) {
-      .result-item { grid-template-columns: 110px 1fr; }
-      .thumb-wrap { width: 110px; }
+    /* ── Responsive: single column on narrow screens ── */
+    @media (max-width: 580px) {
+      #results { grid-template-columns: 1fr; }
+      .result-item:nth-child(odd) { border-right: none; }
     }
   </style>
 </head>
@@ -232,8 +245,8 @@
 <main>
   <div class="controls">
 
-    <div class="field" style="flex:1; min-width:160px;">
-      <label for="queryInput">Extra keywords</label>
+    <div class="field">
+      <label for="queryInput">Keywords</label>
       <input type="text" id="queryInput" placeholder="Optional…" autocomplete="off" />
     </div>
 
@@ -251,8 +264,7 @@
           <option value="720">30 days</option>
           <option value="custom">Custom…</option>
         </select>
-        <input type="number" id="hourCustom" min="1" max="8760" placeholder="hrs"
-               style="display:none;" title="Hours back" />
+        <input type="number" id="hourCustom" min="1" max="8760" placeholder="hrs" style="display:none;" />
       </div>
     </div>
 
@@ -266,7 +278,7 @@
 </main>
 
 <script>
-// ── API key — restrict this in Google Cloud Console to your GitHub Pages domain ──
+// ── API key — restrict in Google Cloud Console to your GitHub Pages domain ──
 const YT_API_KEY = 'YOUR_API_KEY_HERE';
 
 function getApiKey() {
@@ -277,7 +289,7 @@ function getApiKey() {
 const BAND_MAID_RE = /\bband[-\s]?mai(?:d|ko)\b/i;
 const BASE_QUERY   = '"BAND-MAID" OR "BAND-MAIKO"';
 
-// ── DOM refs ───────────────────────────────────────────────────────────────
+// ── DOM ────────────────────────────────────────────────────────────────────
 const queryInput = document.getElementById('queryInput');
 const hourPreset = document.getElementById('hourPreset');
 const hourCustom = document.getElementById('hourCustom');
@@ -286,10 +298,10 @@ const statusEl   = document.getElementById('status');
 const resultsEl  = document.getElementById('results');
 const metaEl     = document.getElementById('metaBar');
 
-// ── Preset ↔ custom toggle ─────────────────────────────────────────────────
+// ── Hours control ──────────────────────────────────────────────────────────
 hourPreset.addEventListener('change', () => {
   const isCustom = hourPreset.value === 'custom';
-  hourCustom.style.display = isCustom ? 'block' : 'none';
+  hourCustom.style.display = isCustom ? 'inline-block' : 'none';
   if (isCustom) hourCustom.focus();
 });
 
@@ -313,7 +325,7 @@ function publishedAfterISO(hours) {
 
 function formatDate(iso) {
   return new Date(iso).toLocaleString('en-US', {
-    year: 'numeric', month: 'short', day: 'numeric',
+    month: 'short', day: 'numeric',
     hour: 'numeric', minute: '2-digit'
   });
 }
@@ -322,38 +334,29 @@ function formatDuration(iso) {
   if (!iso) return '';
   const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
   if (!m) return '';
-  const h = parseInt(m[1] || 0), mi = parseInt(m[2] || 0), s = parseInt(m[3] || 0);
+  const h = parseInt(m[1]||0), mi = parseInt(m[2]||0), s = parseInt(m[3]||0);
   return h
-    ? `${h}:${String(mi).padStart(2, '0')}:${String(s).padStart(2, '0')}`
-    : `${mi}:${String(s).padStart(2, '0')}`;
+    ? `${h}:${String(mi).padStart(2,'0')}:${String(s).padStart(2,'0')}`
+    : `${mi}:${String(s).padStart(2,'0')}`;
 }
 
 function esc(s) {
-  return String(s)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 // ── Regex helpers ──────────────────────────────────────────────────────────
 function matchesBandMaid(snip) {
-  return BAND_MAID_RE.test(snip.title || '') ||
-         BAND_MAID_RE.test(snip.description || '');
+  return BAND_MAID_RE.test(snip.title || '') || BAND_MAID_RE.test(snip.description || '');
 }
-
 function matchedWhere(snip) {
-  if (!BAND_MAID_RE.test(snip.title || '') &&
-       BAND_MAID_RE.test(snip.description || '')) {
-    return 'matched in description';
-  }
-  return null;
+  return (!BAND_MAID_RE.test(snip.title || '') && BAND_MAID_RE.test(snip.description || ''))
+    ? 'desc' : null;
 }
 
-// ── YouTube API wrappers ───────────────────────────────────────────────────
+// ── API ────────────────────────────────────────────────────────────────────
 async function ytFetch(endpoint, params) {
   params.key = getApiKey();
-  const url = 'https://www.googleapis.com/youtube/v3/' + endpoint +
-              '?' + new URLSearchParams(params);
-  const r = await fetch(url);
+  const r = await fetch('https://www.googleapis.com/youtube/v3/' + endpoint + '?' + new URLSearchParams(params));
   if (!r.ok) {
     const err = await r.json().catch(() => ({}));
     throw new Error(err?.error?.message || `HTTP ${r.status}`);
@@ -361,37 +364,28 @@ async function ytFetch(endpoint, params) {
   return r.json();
 }
 
-async function searchPage(publishedAfter, pageToken) {
+async function searchYT(publishedAfter) {
   const extra = queryInput.value.trim();
-  const q = extra ? `${BASE_QUERY} ${extra}` : BASE_QUERY;
-  const p = {
+  return ytFetch('search', {
     part: 'snippet',
-    q,
+    q: extra ? `${BASE_QUERY} ${extra}` : BASE_QUERY,
     type: 'video',
     order: 'date',
     maxResults: 50,
     publishedAfter,
-  };
-  if (pageToken) p.pageToken = pageToken;
-  return ytFetch('search', p);
+  });
 }
 
 async function getDetails(ids) {
   if (!ids.length) return {};
-  const data = await ytFetch('videos', {
-    part: 'contentDetails',
-    id: ids.join(','),
-  });
+  const data = await ytFetch('videos', { part: 'contentDetails', id: ids.join(',') });
   return Object.fromEntries((data.items || []).map(v => [v.id, v]));
 }
 
 // ── Main ───────────────────────────────────────────────────────────────────
 async function runSearch() {
   if (!getApiKey()) {
-    setStatus(
-      'No API key set. Edit index.html and replace <code>YOUR_API_KEY_HERE</code> with your YouTube Data API v3 key.',
-      true
-    );
+    setStatus('No API key set — replace <code>YOUR_API_KEY_HERE</code> in index.html.', true);
     return;
   }
 
@@ -401,55 +395,32 @@ async function runSearch() {
   setStatus('<span class="spinner"></span>searching…');
 
   const hours = getHours();
-  const publishedAfter = publishedAfterISO(hours);
 
   try {
-    // Pull up to 2 pages (max 100 raw results) then filter + cap at 50
-    let allItems = [];
-    let nextToken = null;
-    let pages = 0;
-
-    do {
-      const data = await searchPage(publishedAfter, nextToken);
-      allItems = allItems.concat(data.items || []);
-      nextToken = data.nextPageToken || null;
-      pages++;
-    } while (false); // single page only — 50 results max
-
-    const rawCount = allItems.length;
-
-    // Regex filter
-    const matched = allItems.filter(i => matchesBandMaid(i.snippet || {}));
+    const data     = await searchYT(publishedAfterISO(hours));
+    const raw      = data.items || [];
+    const matched  = raw.filter(i => matchesBandMaid(i.snippet || {}));
+    const filtered = raw.length - matched.length;
 
     // Sort most-recent first
-    matched.sort((a, b) =>
-      new Date(b.snippet.publishedAt) - new Date(a.snippet.publishedAt)
-    );
+    matched.sort((a, b) => new Date(b.snippet.publishedAt) - new Date(a.snippet.publishedAt));
 
-    // Cap at 50
-    const capped   = matched.slice(0, 50);
-    const filtered = rawCount - matched.length;
-
-    // Fetch durations for video results
-    const videoIds = capped.map(i => i.id?.videoId).filter(Boolean);
+    const videoIds = matched.map(i => i.id?.videoId).filter(Boolean);
     const details  = await getDetails(videoIds);
 
-    // Meta bar
     metaEl.innerHTML =
-      `${rawCount} fetched · ${matched.length} matched regex` +
+      `${raw.length} fetched · ${matched.length} matched` +
       (filtered ? ` · <span class="warn">${filtered} filtered out</span>` : '') +
-      ` · showing ${capped.length}` +
-      ` · last ${hours} hr${hours === 1 ? '' : 's'}` +
-      ` · ~${pages * 100} quota units`;
+      ` · last ${hours} hr${hours === 1 ? '' : 's'} · ~100 quota units`;
 
     setStatus('');
 
-    if (!capped.length) {
-      setStatus('No matching results in that time window. Try a wider range.');
+    if (!matched.length) {
+      setStatus('No matching results. Try a wider time range.');
       return;
     }
 
-    capped.forEach(item => {
+    matched.forEach(item => {
       const id    = item.id?.videoId;
       const snip  = item.snippet || {};
       const dur   = formatDuration(details[id]?.contentDetails?.duration);
@@ -469,7 +440,7 @@ async function runSearch() {
         <div class="info">
           <span class="title">${esc(snip.title || '')}</span>
           <span class="channel">${esc(snip.channelTitle || '')}</span>
-          ${badge ? `<span class="match-badge">${badge}</span>` : ''}
+          ${badge ? `<span class="match-badge">desc match</span>` : ''}
           <span class="dateline">${formatDate(snip.publishedAt)}</span>
         </div>`;
       resultsEl.appendChild(a);
@@ -488,10 +459,10 @@ searchBtn.addEventListener('click', runSearch);
 queryInput.addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); });
 hourCustom.addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); });
 
-// Prompt rather than auto-run — avoids burning quota on page load
 setStatus('Press Search to find recent videos.');
 </script>
 
+<script src="config.js" onerror="void 0;"></script>
 
 </body>
 </html>
