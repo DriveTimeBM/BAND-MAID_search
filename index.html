@@ -152,7 +152,7 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* ── Card size scale ── */
-    :root { --thumb-w: 100px; --card-pad: 0.55rem 0.6rem; --title-size: 0.78rem; --meta-size: 0.62rem; }
+    :root { --thumb-w: 150px; --card-pad: 0.8rem 0.85rem; --title-size: 1.17rem; --meta-size: 0.93rem; }
 
     /* ── Two-column results grid ── */
     #results {
@@ -477,9 +477,9 @@ hourCustom.addEventListener('keydown', e => { if (e.key === 'Enter') runSearch()
 // ── Card size ──────────────────────────────────────────────────────────────
 const sizeSelect = document.getElementById('sizeSelect');
 const sizeMap = {
-  s: { thumb: '100px', pad: '0.55rem 0.6rem', title: '0.78rem', meta: '0.62rem' },
-  m: { thumb: '125px', pad: '0.65rem 0.7rem',  title: '0.975rem', meta: '0.775rem' },
-  l: { thumb: '150px', pad: '0.8rem 0.85rem',  title: '1.17rem',  meta: '0.93rem' },
+  s: { thumb: '150px', pad: '0.80rem 0.85rem', title: '1.17rem',  meta: '0.93rem'  },
+  m: { thumb: '188px', pad: '1.00rem 1.05rem', title: '1.46rem',  meta: '1.16rem'  },
+  l: { thumb: '225px', pad: '1.20rem 1.25rem', title: '1.755rem', meta: '1.395rem' },
 };
 function applySize() {
   const s = sizeMap[sizeSelect.value];
@@ -490,6 +490,12 @@ function applySize() {
   r.setProperty('--meta-size',  s.meta);
 }
 sizeSelect.addEventListener('change', applySize);
+
+// Apply default size from config.js if set
+(function() {
+  const def = (typeof DEFAULT_SIZE !== 'undefined') ? DEFAULT_SIZE : 's';
+  if (sizeMap[def]) { sizeSelect.value = def; applySize(); }
+})();
 
 
 </script>
