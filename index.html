@@ -279,11 +279,11 @@
 </main>
 
 <script>
-// ── API key — restrict in Google Cloud Console to your GitHub Pages domain ──
-const YT_API_KEY = 'YOUR_API_KEY_HERE';
-
 function getApiKey() {
-  return (YT_API_KEY && YT_API_KEY !== 'YOUR_API_KEY_HERE') ? YT_API_KEY : null;
+  try {
+    return (typeof YT_API_KEY !== 'undefined' && YT_API_KEY && YT_API_KEY !== 'YOUR_API_KEY_HERE')
+      ? YT_API_KEY : null;
+  } catch(e) { return null; }
 }
 
 // ── Constants ──────────────────────────────────────────────────────────────
