@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BAND-MAID · Video Search</title>
+  <link rel="icon" type="image/png" href="logo.png" />
   <script src="config.js" onerror="void 0;"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -130,11 +131,12 @@
     /* ── Status ── */
     #status {
       text-align: center;
-      padding: 2rem 0;
+      padding: 0.4rem 0;
       font-family: 'DM Mono', monospace;
       font-size: 0.75rem;
       color: var(--muted);
     }
+    #status:empty { padding: 0; }
     #status.error { color: var(--red); }
 
     .spinner {
@@ -149,6 +151,9 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ── Card size scale ── */
+    :root { --thumb-w: 100px; --card-pad: 0.55rem 0.6rem; --title-size: 0.78rem; --meta-size: 0.62rem; }
+
     /* ── Two-column results grid ── */
     #results {
       display: grid;
@@ -159,9 +164,9 @@
     /* Each cell: left col gets right border, both cols get bottom border */
     .result-item {
       display: grid;
-      grid-template-columns: 100px 1fr;
+      grid-template-columns: var(--thumb-w) 1fr;
       gap: 0.55rem;
-      padding: 0.55rem 0.6rem;
+      padding: var(--card-pad);
       border-bottom: 1px solid var(--border);
       text-decoration: none;
       color: inherit;
@@ -175,7 +180,7 @@
     /* ── Thumbnail ── */
     .thumb-wrap {
       position: relative;
-      width: 100px;
+      width: var(--thumb-w);
       aspect-ratio: 16/9;
       background: var(--border);
       border-radius: 2px;
@@ -199,7 +204,7 @@
     .info { display: flex; flex-direction: column; min-width: 0; gap: 0.1rem; }
 
     .info .title {
-      font-size: 0.78rem;
+      font-size: var(--title-size);
       font-weight: 500;
       line-height: 1.3;
       color: var(--text);
@@ -210,12 +215,12 @@
     }
     .info .channel {
       font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
+      font-size: var(--meta-size);
       color: var(--muted);
     }
     .info .dateline {
       font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
+      font-size: var(--meta-size);
       color: var(--thumb);
       margin-top: auto;
     }
@@ -267,6 +272,15 @@
         </select>
         <input type="number" id="hourCustom" min="1" max="8760" placeholder="hrs" style="display:none;" />
       </div>
+    </div>
+
+    <div class="field">
+      <label for="sizeSelect">Size</label>
+      <select id="sizeSelect">
+        <option value="s" selected>Small</option>
+        <option value="m">Medium</option>
+        <option value="l">Large</option>
+      </select>
     </div>
 
     <button id="searchBtn">Search</button>
@@ -412,7 +426,7 @@ async function runSearch() {
     metaEl.innerHTML =
       `${raw.length} fetched · ${matched.length} matched` +
       (filtered ? ` · <span class="warn">${filtered} filtered out</span>` : '') +
-      ` · last ${hours} hr${hours === 1 ? '' : 's'} · ~100 quota units`;
+      ` · last ${hours} hr${hours === 1 ? '' : 's'} · ~${100 + videoIds.length} quota units`;
 
     setStatus('');
 
@@ -459,6 +473,24 @@ async function runSearch() {
 searchBtn.addEventListener('click', runSearch);
 queryInput.addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); });
 hourCustom.addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); });
+
+// ── Card size ──────────────────────────────────────────────────────────────
+const sizeSelect = document.getElementById('sizeSelect');
+const sizeMap = {
+  s: { thumb: '100px', pad: '0.55rem 0.6rem', title: '0.78rem', meta: '0.62rem' },
+  m: { thumb: '125px', pad: '0.65rem 0.7rem',  title: '0.975rem', meta: '0.775rem' },
+  l: { thumb: '150px', pad: '0.8rem 0.85rem',  title: '1.17rem',  meta: '0.93rem' },
+};
+function applySize() {
+  const s = sizeMap[sizeSelect.value];
+  const r = document.documentElement.style;
+  r.setProperty('--thumb-w',    s.thumb);
+  r.setProperty('--card-pad',   s.pad);
+  r.setProperty('--title-size', s.title);
+  r.setProperty('--meta-size',  s.meta);
+}
+sizeSelect.addEventListener('change', applySize);
+
 
 </script>
 
