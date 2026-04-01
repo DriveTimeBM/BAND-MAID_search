@@ -265,19 +265,12 @@
   <div id="results"></div>
 </main>
 
-<!-- config.js loaded last; onerror is silent — getApiKey() handles the missing-key case -->
 <script>
-// ── Config guard ───────────────────────────────────────────────────────────
-// Works whether config.js loaded or not, and regardless of load order.
+// ── API key — restrict this in Google Cloud Console to your GitHub Pages domain ──
+const YT_API_KEY = 'YOUR_API_KEY_HERE';
+
 function getApiKey() {
-  try {
-    if (typeof YT_API_KEY !== 'undefined' &&
-        YT_API_KEY &&
-        YT_API_KEY !== 'YOUR_API_KEY_HERE') {
-      return YT_API_KEY;
-    }
-  } catch (e) {}
-  return null;
+  return (YT_API_KEY && YT_API_KEY !== 'YOUR_API_KEY_HERE') ? YT_API_KEY : null;
 }
 
 // ── Constants ──────────────────────────────────────────────────────────────
@@ -396,8 +389,7 @@ async function getDetails(ids) {
 async function runSearch() {
   if (!getApiKey()) {
     setStatus(
-      'No API key found. Copy <code>config.template.js</code> to <code>config.js</code>, ' +
-      'add your YouTube Data API v3 key, and open index.html with config.js in the same folder.',
+      'No API key set. Edit index.html and replace <code>YOUR_API_KEY_HERE</code> with your YouTube Data API v3 key.',
       true
     );
     return;
@@ -422,7 +414,7 @@ async function runSearch() {
       allItems = allItems.concat(data.items || []);
       nextToken = data.nextPageToken || null;
       pages++;
-    } while (nextToken && pages < 2);
+    } while (false); // single page only — 50 results max
 
     const rawCount = allItems.length;
 
@@ -500,7 +492,6 @@ hourCustom.addEventListener('keydown', e => { if (e.key === 'Enter') runSearch()
 setStatus('Press Search to find recent videos.');
 </script>
 
-<script src="config.js" onerror="void 0;"></script>
 
 </body>
 </html>
