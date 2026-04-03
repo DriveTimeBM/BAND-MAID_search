@@ -392,6 +392,15 @@ function formatDuration(iso) {
     : `${mi}:${String(s).padStart(2,'0')}`;
 }
 
+function formatViews(n) {
+  if (!n) return '';
+  const v = parseInt(n, 10);
+  if (isNaN(v)) return '';
+  if (v >= 1000000) return (v / 1000000).toFixed(1).replace(/\.0$/, '') + 'M views';
+  if (v >= 1000)    return Math.round(v / 1000) + 'K views';
+  return v + ' views';
+}
+
 function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
@@ -430,7 +439,7 @@ async function searchYT(publishedAfter) {
 
 async function getDetails(ids) {
   if (!ids.length) return {};
-  const data = await ytFetch('videos', { part: 'contentDetails', id: ids.join(',') });
+  const data = await ytFetch('videos', { part: 'contentDetails,statistics', id: ids.join(',') });
   return Object.fromEntries((data.items || []).map(v => [v.id, v]));
 }
 
@@ -476,6 +485,7 @@ async function runSearch() {
       const id    = item.id?.videoId;
       const snip  = item.snippet || {};
       const dur   = formatDuration(details[id]?.contentDetails?.duration);
+      const views = formatViews(details[id]?.statistics?.viewCount);
       const thumb = snip.thumbnails?.medium?.url || snip.thumbnails?.default?.url || '';
       const badge = matchedWhere(snip);
 
@@ -494,7 +504,7 @@ async function runSearch() {
           <div class="title-wrap" data-tip="${esc(snip.title || '')}"><span class="title">${esc(snip.title || '')}</span></div>
           <span class="channel" data-tip="${esc(snip.channelTitle || '')}">${esc(snip.channelTitle || '')}</span>
           ${badge ? `<span class="match-badge">desc match</span>` : ''}
-          <span class="dateline">${formatDate(snip.publishedAt)}</span>
+          <span class="dateline">${formatDate(snip.publishedAt)}${views ? ' · ' + views : ''}</span>
         </div>`;
       resultsEl.appendChild(a);
     });
