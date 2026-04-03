@@ -491,7 +491,7 @@ async function runSearch() {
           ${dur   ? `<span class="duration">${esc(dur)}</span>` : ''}
         </div>
         <div class="info">
-          <span class="title" data-tip="${esc(snip.title || '')}">${esc(snip.title || '')}</span>
+          <div class="title-wrap" data-tip="${esc(snip.title || '')}"><span class="title">${esc(snip.title || '')}</span></div>
           <span class="channel" data-tip="${esc(snip.channelTitle || '')}">${esc(snip.channelTitle || '')}</span>
           ${badge ? `<span class="match-badge">desc match</span>` : ''}
           <span class="dateline">${formatDate(snip.publishedAt)}</span>
