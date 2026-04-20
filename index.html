@@ -501,11 +501,14 @@ async function runSearch() {
           ${dur   ? `<span class="duration">${esc(dur)}</span>` : ''}
         </div>
         <div class="info">
-          <div class="title-wrap" data-tip="${esc(snip.title || '')}"><span class="title">${esc(snip.title || '')}</span></div>
-          <span class="channel" data-tip="${esc(snip.channelTitle || '')}">${esc(snip.channelTitle || '')}</span>
+          <div class="title-wrap"><span class="title">${esc(snip.title || '')}</span></div>
+          <span class="channel">${esc(snip.channelTitle || '')}</span>
           ${badge ? `<span class="match-badge">desc match</span>` : ''}
           <span class="dateline">${formatDate(snip.publishedAt)}${views ? ' · ' + views : ''}</span>
         </div>`;
+      // Set tooltip text directly so special chars are never double-encoded
+      a.querySelector('.title-wrap').dataset.tip = snip.title || '';
+      a.querySelector('.channel').dataset.tip     = snip.channelTitle || '';
       resultsEl.appendChild(a);
     });
 
