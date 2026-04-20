@@ -401,6 +401,13 @@ function formatViews(n) {
   return v + ' views';
 }
 
+// YouTube API returns pre-encoded HTML entities in titles — decode them first
+function decodeHTML(s) {
+  const txt = document.createElement('textarea');
+  txt.innerHTML = s;
+  return txt.value;
+}
+
 function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
@@ -501,14 +508,14 @@ async function runSearch() {
           ${dur   ? `<span class="duration">${esc(dur)}</span>` : ''}
         </div>
         <div class="info">
-          <div class="title-wrap"><span class="title">${esc(snip.title || '')}</span></div>
-          <span class="channel">${esc(snip.channelTitle || '')}</span>
+          <div class="title-wrap"><span class="title">${esc(decodeHTML(snip.title || ''))}</span></div>
+          <span class="channel">${esc(decodeHTML(snip.channelTitle || ''))}</span>
           ${badge ? `<span class="match-badge">desc match</span>` : ''}
           <span class="dateline">${formatDate(snip.publishedAt)}${views ? ' · ' + views : ''}</span>
         </div>`;
       // Set tooltip text directly so special chars are never double-encoded
-      a.querySelector('.title-wrap').dataset.tip = snip.title || '';
-      a.querySelector('.channel').dataset.tip     = snip.channelTitle || '';
+      a.querySelector('.title-wrap').dataset.tip = decodeHTML(snip.title || '');
+      a.querySelector('.channel').dataset.tip     = decodeHTML(snip.channelTitle || '');
       resultsEl.appendChild(a);
     });
 
